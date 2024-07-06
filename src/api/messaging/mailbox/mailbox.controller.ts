@@ -21,8 +21,11 @@ export class MailboxController {
   }
 
   @Get('message/:messageId')
-  async getMessageById(@Param('messageId') messageId: string) {
-    throw new NotImplementedException();
+  async getMessageById(
+    @User() userCode: string,
+    @Param('messageId') messageId: string,
+  ) {
+    return this.mailboxService.readMessage(userCode, messageId);
   }
 
   @Post('message')

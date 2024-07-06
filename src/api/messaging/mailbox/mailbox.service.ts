@@ -22,7 +22,7 @@ export class MailboxService {
   readMessage(userCode: string, messageCode: string) {
     this.checkUserDir(userCode);
 
-    const { exists, data } = readDbFile(messageCode, 'inbox');
+    const { exists, data } = readDbFile(`${userCode}/${messageCode}`, 'inbox');
 
     if (!exists) throw new NotFoundException();
 
