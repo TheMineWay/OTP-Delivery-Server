@@ -32,6 +32,9 @@ export class MailboxService {
   sendMessage(from: string, messageData: SendMessageDTO) {
     this.checkUserDir(messageData.to);
 
-    writeDbFile(Date.now().toString(), 'inbox', { ...messageData, from });
+    writeDbFile(Date.now().toString(), `inbox/${messageData.to}`, {
+      ...messageData,
+      from,
+    });
   }
 }
