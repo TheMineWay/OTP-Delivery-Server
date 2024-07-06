@@ -1,8 +1,13 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateAccountDTO } from '../../dtos/account/create-account.dto';
 import { readDbFile } from '../../utils/files/read-db-file.util';
 import { writeDbFile } from '../../utils/files/write-db-file.util';
 import { readdirSync } from 'fs';
+import { deleteDbFile } from '../../utils/files/delete-db-file.util';
 
 @Injectable()
 export class AdminService {
@@ -19,5 +24,13 @@ export class AdminService {
     return files.map(
       (filePath) => readDbFile<{ code: string }>(filePath, 'users').data.code,
     );
+  }
+
+  deleteAccount(accountCode: string) {
+    const { exists } = readDbFile(accountCode, 'users');
+
+    if (!exists) throw new NotFoundException();
+
+    deleteDbFile(accountCode, 'users');
   }
 }

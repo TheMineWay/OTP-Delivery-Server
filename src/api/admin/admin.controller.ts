@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  NotImplementedException,
   Param,
   Post,
   UseGuards,
@@ -24,7 +23,7 @@ export class AdminController {
 
   @Delete('account/:code')
   async deleteAccount(@Param('code') accountCode: string) {
-    throw new NotImplementedException();
+    this.adminService.deleteAccount(accountCode);
   }
 
   @Get('accounts')
