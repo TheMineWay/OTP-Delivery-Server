@@ -29,6 +29,6 @@ export class AdminController {
 
   @Get('accounts')
   async getAccountsList() {
-    throw new NotImplementedException();
+    return this.adminService.getAllAccounts();
   }
 }
