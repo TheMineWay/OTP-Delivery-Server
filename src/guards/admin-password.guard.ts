@@ -1,4 +1,3 @@
-// src/guards/admin-password.guard.ts
 import {
   Injectable,
   CanActivate,
