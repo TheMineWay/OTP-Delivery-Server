@@ -26,8 +26,8 @@ export class MailboxController {
   }
 
   @Post('message')
-  async sendMessage(@Body() message: SendMessageDTO) {
-    throw new NotImplementedException();
+  async sendMessage(@User() userCode: string, @Body() message: SendMessageDTO) {
+    this.mailboxService.sendMessage(userCode, message);
   }
 
   @Delete('message/messageId')
