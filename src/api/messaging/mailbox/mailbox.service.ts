@@ -36,6 +36,7 @@ export class MailboxService {
     writeDbFile(Date.now().toString(), `inbox/${messageData.to}`, {
       ...messageData,
       from,
+      date: new Date(),
     });
   }
 
