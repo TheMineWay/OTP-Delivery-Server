@@ -12,11 +12,13 @@ import { deleteDbFile } from '../../utils/files/delete-db-file.util';
 @Injectable()
 export class AdminService {
   createAccount(account: CreateAccountDTO) {
-    const { exists } = readDbFile(account.code, 'users');
+    const code = account.code.replaceAll('/', '');
+
+    const { exists } = readDbFile(code, 'users');
 
     if (exists) throw new BadRequestException('Duplicated user');
 
-    writeDbFile(account.code, 'users', account);
+    writeDbFile(code, 'users', account);
   }
 
   getAllAccounts() {

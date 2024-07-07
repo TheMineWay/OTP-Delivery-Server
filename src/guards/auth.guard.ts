@@ -13,7 +13,7 @@ import * as CryptoJS from 'crypto-js';
 export class AuthGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request: Request = context.switchToHttp().getRequest();
-    const user = request.headers['x-user'] as string;
+    const user = (request.headers['x-user'] as string).replaceAll('/', '');
     const password = request.headers['x-password'] as string;
 
     if (!user || !password) {
