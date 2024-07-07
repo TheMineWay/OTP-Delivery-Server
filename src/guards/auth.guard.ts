@@ -8,12 +8,13 @@ import {
 import { Request } from 'express';
 import { readDbFile } from '../utils/files/read-db-file.util';
 import * as CryptoJS from 'crypto-js';
+import { processAccountCode } from '../utils/text/process-account-code.util';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request: Request = context.switchToHttp().getRequest();
-    const user = (request.headers['x-user'] as string).replaceAll('/', '');
+    const user = processAccountCode(request.headers['x-user'] as string);
     const password = request.headers['x-password'] as string;
 
     if (!user || !password) {

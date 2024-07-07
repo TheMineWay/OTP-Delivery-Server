@@ -8,11 +8,12 @@ import { readDbFile } from '../../utils/files/read-db-file.util';
 import { writeDbFile } from '../../utils/files/write-db-file.util';
 import { readdirSync } from 'fs';
 import { deleteDbFile } from '../../utils/files/delete-db-file.util';
+import { processAccountCode } from '../../utils/text/process-account-code.util';
 
 @Injectable()
 export class AdminService {
   createAccount(account: CreateAccountDTO) {
-    const code = account.code.replaceAll('/', '');
+    const code = processAccountCode(account.code);
 
     const { exists } = readDbFile(code, 'users');
 
