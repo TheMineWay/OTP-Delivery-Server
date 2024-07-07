@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  NotImplementedException,
-  Param,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { SendMessageDTO } from '../../../dtos/messaging/send-message.dto';
 import { MailboxService } from './mailbox.service';
 import { User } from '../../../decorators/user.decorator';
@@ -34,7 +26,10 @@ export class MailboxController {
   }
 
   @Delete('message/messageId')
-  async deleteMessageById(@Param('messageId') messageId: string) {
-    throw new NotImplementedException();
+  async deleteMessageById(
+    @User() userCode: string,
+    @Param('messageId') messageId: string,
+  ) {
+    this.mailboxService.deleteMessage(userCode, messageId);
   }
 }

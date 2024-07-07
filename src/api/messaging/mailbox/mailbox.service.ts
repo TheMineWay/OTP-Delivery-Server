@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readdirSync } from 'fs';
 import { readDbFile } from '../../../utils/files/read-db-file.util';
 import { SendMessageDTO } from '../../../dtos/messaging/send-message.dto';
 import { writeDbFile } from '../../../utils/files/write-db-file.util';
+import { deleteDbFile } from '../../../utils/files/delete-db-file.util';
 
 @Injectable()
 export class MailboxService {
@@ -36,5 +37,13 @@ export class MailboxService {
       ...messageData,
       from,
     });
+  }
+
+  deleteMessage(userCode: string, messageId: string) {
+    const { exists } = readDbFile(`${userCode}/${messageId}`, 'inbox');
+
+    if (!exists) throw new NotFoundException();
+
+    deleteDbFile(`${userCode}/${messageId}`, 'inbox');
   }
 }
