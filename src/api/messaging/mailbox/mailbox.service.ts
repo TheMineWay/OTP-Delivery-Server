@@ -4,6 +4,7 @@ import { readDbFile } from '../../../utils/files/read-db-file.util';
 import { SendMessageDTO } from '../../../dtos/messaging/send-message.dto';
 import { writeDbFile } from '../../../utils/files/write-db-file.util';
 import { deleteDbFile } from '../../../utils/files/delete-db-file.util';
+import { MessageModel } from '../../../models/messaging/message.model';
 
 @Injectable()
 export class MailboxService {
@@ -17,7 +18,14 @@ export class MailboxService {
     this.checkUserDir(userCode);
 
     const files = readdirSync(`/app-data/inbox/${userCode}`);
-    return files;
+    return files
+      .map((file) => ({
+        id: file,
+        date: new Date(
+          readDbFile<MessageModel>(`${userCode}/${file}`, 'inbox').data.date,
+        ),
+      }))
+      .sort(({ date: a }, { date: b }) => (a < b ? 1 : -1));
   }
 
   readMessage(userCode: string, messageCode: string) {
